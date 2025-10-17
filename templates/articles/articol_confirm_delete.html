@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Articole</h2>
+  <p><a href="{% url 'articles:create' %}">Adaugă Articol Nou</a></p>
+  <form method="get" class="search-form">
+    <input type="text" name="q" placeholder="Caută după cod sau denumire" value="{{ request.GET.q }}">
+    <button type="submit">Caută</button>
+  </form>
+  <table>
+    <thead>
+      <tr>
+        <th>Cod</th>
+        <th>Denumire</th>
+        <th>UM</th>
+        <th>Preț Standard</th>
+        <th>Acțiuni</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for articol in object_list %}
+      <tr>
+        <td>{{ articol.cod }}</td>
+        <td>{{ articol.denumire }}</td>
+        <td>{{ articol.um }}</td>
+        <td>{{ articol.pret_standard }}</td>
+        <td>
+          <a href="{% url 'articles:edit' articol.pk %}">Editează</a> |
+          <a href="{% url 'articles:delete' articol.pk %}">Șterge</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5">Nu există articole.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if is_paginated %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">&laquo; Anterior</a>
+    {% endif %}
+    <span>Pagina {{ page_obj.number }} din {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">Următor &raquo;</a>
+    {% endif %}
+  </div>
+  {% endif %}
+{% endblock %}

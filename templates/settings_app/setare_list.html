@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Setări Generale</h2>
+  <p><a href="{% url 'settings_app:create' %}">Adaugă Setare Nouă</a></p>
+  <table>
+    <thead>
+      <tr>
+        <th>Cheie</th>
+        <th>Valoare</th>
+        <th>Acțiuni</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for setare in object_list %}
+      <tr>
+        <td>{{ setare.cheie }}</td>
+        <td>{{ setare.valoare }}</td>
+        <td>
+          <a href="{% url 'settings_app:edit' setare.pk %}">Editează</a> |
+          <a href="{% url 'settings_app:delete' setare.pk %}">Șterge</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="3">Nu există setări.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  {% if is_paginated %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">&laquo; Anterior</a>
+    {% endif %}
+    <span>Pagina {{ page_obj.number }} din {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Următor &raquo;</a>
+    {% endif %}
+  </div>
+  {% endif %}
+{% endblock %}

@@ -1,0 +1,7 @@
+<h2>Stergere Deviz</h2>
+  <p>Esti sigur ca vrei sa stergi devizul ?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirma Stergere</button>
+    <a href="../templates/estimates/deviz_list.html">Anuleaza</a>
+  </form>

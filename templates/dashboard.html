@@ -1,0 +1,80 @@
+<style>
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  max-width: 1000px;
+  margin: 2rem auto;
+}
+.card-link {
+  text-decoration: none;
+}
+.card {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+  display: block;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+.card h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1.25rem;
+  color: #004080;
+}
+.card p {
+  font-size: 2rem;
+  margin: 0;
+  color: #333;
+}
+.card a {
+  display: inline-block;
+  margin-top: 1rem;
+  color: #004080;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.2s;
+}
+.card a:hover {
+  color: #002040;
+}
+</style>
+
+<div class="dashboard-grid">
+  <a href="{% url 'clients:list' %}" class="card-link">
+    <div class="card">
+      <h3>Clienti</h3>
+      <p>{{ total_clients|default:"--" }}</p>
+      <a href="{% url 'clients:list' %}">Vezi clienti &rarr;</a>
+    </div>
+  </a>
+
+  <a href="{% url 'articles:list' %}" class="card-link">
+    <div class="card">
+      <h3>Articole</h3>
+      <a href="{% url 'articles:list' %}">Vezi articole &rarr;</a>
+    </div>
+  </a>
+
+  <a href="{% url 'estimates:list' %}" class="card-link">
+    <div class="card">
+      <h3>Devize</h3>
+      <p>&mdash;</p>
+      <a href="{% url 'estimates:list' %}">Vezi devize &rarr;</a>
+    </div>
+  </a>
+
+  <a href="{% url 'reports:summary' %}" class="card-link">
+    <div class="card">
+      <h3>Rapoarte</h3>
+      <p>&mdash;</p>
+      <a href="{% url 'reports:summary' %}">Vezi rapoarte &rarr;</a>
+    </div>
+  </a>
+</div>
+

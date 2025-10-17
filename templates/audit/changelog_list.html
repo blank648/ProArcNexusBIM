@@ -1,0 +1,119 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.changelog-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+.changelog-container h2 {
+  color: #004080;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+.changelog-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.changelog-table th,
+.changelog-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  font-size: 0.95rem;
+  vertical-align: top;
+}
+.changelog-table th {
+  background: #f0f0f0;
+  color: #333;
+  text-align: left;
+}
+.changelog-table tr:nth-child(even) {
+  background: #fcfcfc;
+}
+.changelog-table tr:hover {
+  background: #fafafa;
+}
+.details-cell {
+  max-width: 300px;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.pagination a {
+  color: #004080;
+  text-decoration: none;
+  padding: 0.25rem 0.75rem;
+  border: 1px solid #004080;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+}
+.pagination a:hover {
+  background: #004080;
+  color: #fff;
+}
+.pagination span {
+  font-weight: 500;
+}
+</style>
+
+<div class="changelog-container">
+  <h2>Jurnal Actiuni</h2>
+  <table class="changelog-table">
+    <thead>
+      <tr>
+        <th>Timp</th>
+        <th>Utilizator</th>
+        <th>Model</th>
+        <th>PK</th>
+        <th>Actiune</th>
+        <th>Detalii</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for log in object_list %}
+      <tr>
+        <td>{{ log.timestamp }}</td>
+        <td>{% if log.user %}{{ log.user.username }}{% else %}anonim{% endif %}</td>
+        <td>{{ log.model_name }}</td>
+        <td>{{ log.object_pk }}</td>
+        <td>{{ log.action }}</td>
+        <td class="details-cell">
+          {% if log.action == 'update' %}
+            <strong>vechi:</strong> {{ log.old_data|safe }}<br>
+            <strong>nou:</strong> {{ log.new_data|safe }}
+          {% elif log.action == 'create' %}
+            <strong>nou:</strong> {{ log.new_data|safe }}
+          {% else %}
+            <strong>stearge:</strong> {{ log.old_data|safe }}
+          {% endif %}
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="6" style="text-align:center; color:#666; padding:1rem;">Nu exista inregistrari.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if is_paginated %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?page={{ page_obj.previous_page_number }}">&laquo; Anterior</a>
+    {% endif %}
+    <span>Pagina {{ page_obj.number }} din {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?page={{ page_obj.next_page_number }}">Urmator &raquo;</a>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Ștergere Setare</h2>
+  <p>Ești sigur că vrei să ștergi setarea „{{ object.cheie }}”?</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Confirmă Ștergere</button>
+    <a href="{% url 'settings_app:list' %}">Anulează</a>
+  </form>
+{% endblock %}

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8">
+  <title>Raport {{ start_date }} - {{ end_date }}</title>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    table { width: 100%; border-collapse: collapse; margin-bottom: 1rem; }
+    th, td { border: 1px solid #333; padding: 4px; text-align: left; }
+    th { background-color: #f0f0f0; }
+    h1, h2, h3 { color: #004080; }
+  </style>
+</head>
+<body>
+  <h1>Raport din {{ start_date }} pana in {{ end_date }}</h1>
+
+  <h2>Valoare Totala pe Client</h2>
+  <table>
+    <thead>
+      <tr><th>Client</th><th>Suma Totala</th></tr>
+    </thead>
+    <tbody>
+      {% for item in per_client %}
+        <tr>
+          <td>{{ item.denumire }}</td>
+          <td>{{ item.suma }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <h2>Total General: {{ total_all }}</h2>
+</body>
+</html>

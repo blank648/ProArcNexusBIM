@@ -1,0 +1,146 @@
+{% extends "base.html" %}
+
+{% block content %}
+<style>
+.articol-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+.add-articol-btn {
+  display: inline-block;
+  margin-bottom: 1rem;
+  background: #004080;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.add-articol-btn:hover {
+  background: #003060;
+}
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.search-form input[type="text"] {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.search-form button {
+  background: #004080;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.search-form button:hover {
+  background: #003060;
+}
+.articol-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.articol-table th,
+.articol-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+.articol-table th {
+  background: #f0f0f0;
+}
+.articol-table tr:hover {
+  background: #fafafa;
+}
+.actions a {
+  color: #004080;
+  text-decoration: none;
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+.actions a.delete {
+  color: #c00;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+.pagination a {
+  color: #004080;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #004080;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+}
+.pagination a:hover {
+  background: #004080;
+  color: #fff;
+}
+.pagination span {
+  font-weight: 500;
+}
+</style>
+
+<div class="articol-container">
+  <h2 style="color:#004080; margin-bottom:1rem;">Articole</h2>
+  <a href="{% url 'articles:create' %}" class="add-articol-btn">Adauga Articol Nou</a>
+
+  <form method="get" class="search-form">
+    <input type="text" name="q" placeholder="Cauta cod sau denumire" value="{{ request.GET.q }}">
+    <button type="submit">Cauta</button>
+  </form>
+
+  <table class="articol-table">
+    <thead>
+      <tr>
+        <th>Cod</th>
+        <th>Denumire</th>
+        <th>UM</th>
+        <th>Pret Standard</th>
+        <th>Actiuni</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for articol in object_list %}
+      <tr>
+        <td>{{ articol.cod }}</td>
+        <td>{{ articol.denumire }}</td>
+        <td>{{ articol.um }}</td>
+        <td style="text-align:right;">{{ articol.pret_standard }}</td>
+        <td class="actions">
+          <a href="{% url 'articles:edit' articol.pk %}">Editeaza</a>
+          <a href="{% url 'articles:delete' articol.pk %}" class="delete">Sterge</a>
+        </td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="5" style="text-align:center; color:#666; padding:1rem;">Nu exista articole.</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  {% if is_paginated %}
+  <div class="pagination">
+    {% if page_obj.has_previous %}
+      <a href="?q={{ request.GET.q }}&page={{ page_obj.previous_page_number }}">&laquo; Anterior</a>
+    {% endif %}
+    <span>Pagina {{ page_obj.number }} din {{ page_obj.paginator.num_pages }}</span>
+    {% if page_obj.has_next %}
+      <a href="?q={{ request.GET.q }}&page={{ page_obj.next_page_number }}">Urmator &raquo;</a>
+    {% endif %}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

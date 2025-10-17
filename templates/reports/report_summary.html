@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>Raport Sumativ</h2>
+  <form method="get">
+    {{ form.as_p }}
+    <button type="submit">Genereaza Raport</button>
+  </form>
+
+  {% if per_client %}
+    <h3>Valoare Totala pe Client</h3>
+    <table>
+      <thead>
+        <tr><th>Client</th><th>Suma Totala</th></tr>
+      </thead>
+      <tbody>
+        {% for item in per_client %}
+          <tr>
+            <td>{{ item.denumire }}</td>
+            <td>{{ item.suma }}</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <h3>Total General: {{ total_all }}</h3>
+
+    <h3>Grafic</h3>
+    <img src="{{ chart_url }}" alt="Grafic Valoare Totală per Client">
+
+    <p>
+      <a href="{% url 'reports:pdf' %}?start_date={{ form.data.start_date }}&end_date={{ form.data.end_date }}{% if form.data.client %}&client={{ form.data.client }}{% endif %}">Exportă PDF</a>
+    </p>
+  {% endif %}
+{% endblock %}

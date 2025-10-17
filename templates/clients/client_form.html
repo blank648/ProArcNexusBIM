@@ -1,0 +1,131 @@
+{% extends "base.html" %}
+{% block content %}
+<style>
+.form-container {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.form-container h2 {
+  margin-bottom: 1.5rem;
+  color: #004080;
+  text-align: center;
+}
+.form-field {
+  margin-bottom: 1.25rem;
+  display: flex;
+  flex-direction: column;
+}
+.form-field label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+.form-field input,
+.form-field textarea {
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.form-field textarea {
+  resize: vertical;
+}
+.error-message {
+  color: #c00;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.button-row button,
+.button-row a {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+.button-row button {
+  background: #004080;
+  color: #fff;
+}
+.button-row button:hover {
+  background: #003060;
+}
+.button-row a {
+  background: #eee;
+  color: #333;
+}
+.button-row a:hover {
+  background: #ddd;
+}
+</style>
+
+<div class="form-container">
+  <h2>Form</h2>
+  <form method="post" id="client-form">
+    {% csrf_token %}
+    <div class="form-field">
+      {{ form.denumire.label_tag }}
+      {{ form.denumire }}
+      {% if form.denumire.errors %}
+        <div class="error-message">{{ form.denumire.errors|striptags }}</div>
+      {% endif %}
+    </div>
+    <div class="form-field">
+      {{ form.cui.label_tag }}
+      {{ form.cui }}
+      {% if form.cui.errors %}
+        <div class="error-message">{{ form.cui.errors|striptags }}</div>
+      {% endif %}
+    </div>
+    <div class="form-field">
+      {{ form.adresa.label_tag }}
+      {{ form.adresa }}
+      {% if form.adresa.errors %}
+        <div class="error-message">{{ form.adresa.errors|striptags }}</div>
+      {% endif %}
+    </div>
+    <div class="form-field">
+      {{ form.telefon.label_tag }}
+      {{ form.telefon }}
+      {% if form.telefon.errors %}
+        <div class="error-message">{{ form.telefon.errors|striptags }}</div>
+      {% endif %}
+    </div>
+    <div class="form-field">
+      {{ form.email.label_tag }}
+      {{ form.email }}
+      {% if form.email.errors %}
+        <div class="error-message">{{ form.email.errors|striptags }}</div>
+      {% endif %}
+    </div>
+    <div class="button-row">
+      <button type="submit">Salveaza</button>
+      <a href="../templates/clients/client_list.html">Anuleaza</a>
+    </div>
+  </form>
+</div>
+
+<script>
+  document.getElementById('client-form').addEventListener('submit', function(e) {
+    var name = document.getElementById('{{ form.denumire.id_for_label }}');
+    var cui  = document.getElementById('{{ form.cui.id_for_label }}');
+    if (!name.value.trim() || !cui.value.trim()) {
+      alert('Campurile Denumire si CUI sunt obligatorii.');
+      e.preventDefault();
+    }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <h2>{% if object %}Editează Setare{% else %}Adaugă Setare{% endif %}</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">{% if object %}Salvează{% else %}Adaugă{% endif %}</button>
+    <a href="{% url 'settings_app:list' %}">Anulează</a>
+  </form>
+{% endblock %}

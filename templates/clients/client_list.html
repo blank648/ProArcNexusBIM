@@ -1,0 +1,128 @@
+<style>
+.clients-container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+.search-form {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.search-form input[type="text"] {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.search-form button {
+  background: #004080;
+  color: #fff;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.search-form button:hover {
+  background: #003060;
+}
+.client-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.client-table th,
+.client-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+.client-table th {
+  background: #f0f0f0;
+}
+.client-table tr:hover {
+  background: #fafafa;
+}
+.actions a {
+  color: #004080;
+  text-decoration: none;
+  margin-right: 0.5rem;
+  font-weight: 500;
+}
+.actions a.delete {
+  color: #c00;
+}
+
+.pagination a {
+  color: #004080;
+  text-decoration: none;
+  padding: 0.25rem 0.5rem;
+  border: 1px solid #004080;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+}
+.pagination a:hover {
+  background: #004080;
+  color: #fff;
+}
+.pagination span {
+  font-weight: 500;
+}
+.add-client-btn {
+  display: inline-block;
+  margin-bottom: 1rem;
+  background: #004080;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  text-decoration: none;
+  transition: background 0.2s;
+}
+.add-client-btn:hover {
+  background: #003060;
+}
+</style>
+
+<div class="clients-container">
+  <h2 style="color:#004080; margin-bottom:1rem;">Clienti</h2>
+  <a href=../templates/clients/client_form.html class="add-client-btn">Adauga Client Nou</a>
+
+  <form method="get" class="search-form">
+    <input type="text" name="q" placeholder="Cauta dupa denumire sau CUI" value="{{ request.GET.q }}">
+    <button type="submit">Cauta</button>
+  </form>
+
+  <table class="client-table">
+    <thead>
+      <tr>
+        <th>Denumire</th>
+        <th>CUI</th>
+        <th>Adresa</th>
+        <th>Telefon</th>
+        <th>Email</th>
+        <th>Actiuni</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <tr>
+        <td>{{ client.denumire }}</td>
+        <td>{{ client.cui }}</td>
+        <td>{{ client.adresa }}</td>
+        <td>{{ client.telefon }}</td>
+        <td>{{ client.email }}</td>
+        <td class="actions">
+          <a href="../templates/clients/client_form.html" class="nav-link"></a>
+          <a href="../templates/clients/client_confirm_delete.html" class="delete">Sterge</a>
+        </td>
+      </tr>
+
+      <tr>
+        <td colspan="6" style="text-align:center; color:#666; padding:1rem;">Nu exista clienti.</td>
+      </tr>
+
+    </tbody>
+  </table>
+
+
+</div>

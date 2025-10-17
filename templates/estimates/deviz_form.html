@@ -1,0 +1,140 @@
+<!-- File: ProArcNexus2/templates/estimates/estimate_form.html -->
+{% extends "base.html" %}
+{% block content %}
+<style>
+.estimate-form-container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+.estimate-form-container h2 {
+  text-align: center;
+  color: #004080;
+  margin-bottom: 1.5rem;
+}
+.field-group {
+  margin-bottom: 1.25rem;
+}
+.field-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+.field-group input,
+.field-group select,
+.field-group textarea {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+.lines-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+.lines-table th,
+.lines-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+.lines-table th {
+  background: #f0f0f0;
+}
+.lines-table tr:hover {
+  background: #fafafa;
+}
+.button-row {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.button-row button,
+.button-row a {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  text-decoration: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.2s, color 0.2s;
+}
+.button-row button {
+  background: #004080;
+  color: #fff;
+}
+.button-row button:hover {
+  background: #003060;
+}
+.button-row a {
+  background: #eee;
+  color: #333;
+}
+.button-row a:hover {
+  background: #ddd;
+}
+</style>
+
+<div class="estimate-form-container">
+  <h2>{% if object %}Editeaza Deviz{% else %}Creeaza Deviz{% endif %}</h2>
+  <form method="post" id="estimate-form">
+    {% csrf_token %}
+    <div class="field-group">
+      {{ form.numar_deviz.label_tag }}
+      {{ form.numar_deviz }}
+      {% if form.numar_deviz.errors %}<div style="color:#c00;">{{ form.numar_deviz.errors|striptags }}</div>{% endif %}
+    </div>
+    <div class="field-group">
+      {{ form.data_emitere.label_tag }}
+      {{ form.data_emitere }}
+      {% if form.data_emitere.errors %}<div style="color:#c00;">{{ form.data_emitere.errors|striptags }}</div>{% endif %}
+    </div>
+    <div class="field-group">
+      {{ form.client.label_tag }}
+      {{ form.client }}
+      {% if form.client.errors %}<div style="color:#c00;">{{ form.client.errors|striptags }}</div>{% endif %}
+    </div>
+    <div class="field-group">
+      {{ form.status.label_tag }}
+      {{ form.status }}
+      {% if form.status.errors %}<div style="color:#c00;">{{ form.status.errors|striptags }}</div>{% endif %}
+    </div>
+
+    <h3 style="margin-top:2rem; color:#004080;">Linii Deviz</h3>
+    {{ formset.management_form }}
+    <table class="lines-table">
+      <thead>
+        <tr>
+          <th>Articol</th>
+          <th>Cantitate</th>
+          <th>Pret unitar</th>
+          <th>Sterge</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for form in formset.forms %}
+        <tr>
+          <td>{{ form.articol }}</td>
+          <td>{{ form.cantitate }}</td>
+          <td>{{ form.pret_unitar }}</td>
+          <td>{{ form.DELETE }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <div class="button-row">
+      <button type="submit">Salveaza</button>
+      <a href="{% url 'estimates:list' %}">Anuleaza</a>
+    </div>
+  </form>
+</div>
+{% endblock %}

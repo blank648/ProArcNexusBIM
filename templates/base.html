@@ -1,0 +1,45 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}ProArcNexus2{% endblock %}</title>
+  <link rel="stylesheet" href="../static/css/main.css">
+</head>
+<body>
+  <header style="background:#004080; color:#fff; padding:1rem;">
+    <div style="max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between;">
+      <h1 style="margin:0; font-size:1.5rem;">ProArcNexus2</h1>
+      <nav>
+        <a href="{% url 'dashboard' %}" class="nav-link">Dashboard</a>
+        {% if user.is_authenticated %}
+          <a href="{% url 'clients:list' %}" class="nav-link">Clients</a>
+          <a href="{% url 'articles:list' %}" class="nav-link">Articles</a>
+          <a href="{% url 'estimates:list' %}" class="nav-link">Devize</a>
+          <a href="{% url 'reports:summary' %}" class="nav-link">Reports</a>
+          {% if user.role in 'admin manager' %}
+            <a href="{% url 'audit:logs' %}" class="nav-link">Audit</a>
+          {% endif %}
+          {% if user.role == 'admin' %}
+            <a href="{% url 'settings_app:list' %}" class="nav-link">Settings</a>
+          {% endif %}
+          <a href="{% url 'accounts:logout' %}" class="nav-link">Logout</a>
+        {% else %}
+          <a href="{% url 'accounts:login' %}" class="nav-link">Login</a>
+        {% endif %}
+      </nav>
+    </div>
+  </header>
+
+  <main style="max-width:1200px; margin:2rem auto;">
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer style="background:#f0f0f0; text-align:center; padding:1rem;">
+    <p style="margin:0;">&copy; {{ now.year }} ProArcNexus2</p>
+  </footer>
+
+  {% block scripts %}{% endblock %}
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Deviz {{ deviz.numar_deviz }}</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 2rem;
+      background: #fff;
+      color: #000;
+    }
+    h1, h2, h3 {
+      color: #004080;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+    }
+    th, td {
+      border: 1px solid #333;
+      padding: 6px 10px;
+      text-align: left;
+      font-size: 0.95rem;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+    .section {
+      margin-bottom: 1.5rem;
+    }
+    .total {
+      font-size: 1.1rem;
+      font-weight: bold;
+      margin-top: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <h1>Deviz: {{ deviz.numar_deviz }}</h1>
+
+  <div class="section">
+    <p><strong>Client:</strong> {{ deviz.client.denumire }}</p>
+    <p><strong>Data emitere:</strong> {{ deviz.data_emitere }}</p>
+    <p><strong>Status:</strong> {{ deviz.status }}</p>
+  </div>
+
+  <h2>Detalii</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Articol</th>
+        <th>Cantitate</th>
+        <th>Pret unitar</th>
+        <th>Valoare</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for linie in deviz.linii.all %}
+      <tr>
+        <td>{{ linie.articol.cod }} - {{ linie.articol.denumire }}</td>
+        <td>{{ linie.cantitate }}</td>
+        <td>{{ linie.pret_unitar }}</td>
+        <td>{{ linie.valoare }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <p class="total">Valoare totala: {{ deviz.valoare_totala }}</p>
+</body>
+</html>
